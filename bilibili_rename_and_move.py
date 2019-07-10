@@ -24,7 +24,13 @@ class BilibiliRenameAndMove(Crawler):
 
 	def get_episode_list(self):
 		# html = self.get_html(self.bilibili_url)
-		html = self.get_local_html(os.path.join(self.target_path, 'bilibili.htm'))
+		if os.path.exists('bilibili.htm'):
+			html = self.get_local_html(os.path.join(self.target_path, 'bilibili.htm'))
+		elif os.path.exists('bilibili.html'):
+			html = self.get_local_html(os.path.join(self.target_path, 'bilibili.html'))
+		else:
+			raise RuntimeError('file do not exist!!')
+
 		list = self.get_list(html, self.xpath_rule)
 		self.serials_number_length = len(str(len(list)))
 		for _list in list:
